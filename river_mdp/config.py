@@ -1,0 +1,15 @@
+ROWS = 7
+COLS = 5
+NUM_ISLANDS = 2
+START_COL = 0
+EXIT_COL = COLS - 1
+MIN_CURRENT = 0.06
+MAX_CURRENT = 0.94
+ACTIONS = ['up', 'down', 'left', 'right', 'stay']
+REWARD_EXIT = 100
+REWARD_ISLAND = -100
+REWARD_STEP = -1
+GAMMA = 1
+THETA = 0.01
+MAX_ITERATIONS = 1000
+SYMBOLS = {'captain': 'CWCK', 'river': 'R', 'island': 'I', 'exit': 'E', 'empty': ' '}
