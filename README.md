@@ -1,9 +1,17 @@
 # Search and planning in small gridworlds
 
-My Artificial Intelligence coursework explores logical inference, approximate
-beliefs and planning under uncertainty. In the palace task, an agent must rescue
+Three small gridworld models explore logical inference, approximate beliefs
+and planning under uncertainty. In the palace task, an agent must rescue
 Colonel Kurtz and reach an exit while avoiding hazards. In the river task, it must
 reach the opposite bank despite a random downward current.
+
+<img src="docs/images/river-policy.png" alt="Computed greedy policy and state values for river layout 37, showing downward current, two terminal islands and the exit bank" width="620">
+
+The river policy and values come from the saved run for layout 37, reproduced
+from the code. Arrows show actions; the yellow border marks the starting state.
+Terminal values are zero because rewards are paid on entry.
+
+**Python · NumPy · logical inference · marginal beliefs · Markov decision processes**
 
 ## Run
 
@@ -31,6 +39,17 @@ python -m beliefs.main --seed 42
 Use `moveU/D/L/R` to move and `grenadeU/D/L/R` to throw a grenade. `exit` succeeds
 only at the exit after the rescue. Commands ignore case; Ctrl+C stops the session.
 The belief interface's `--show-map` option reveals the hidden map for debugging.
+
+To reproduce the saved layout and regenerate the illustration:
+
+```bash
+python -m river_mdp.main --seed 37 --simulation-seed 2026 --episodes 20 --quiet --json results/river_37.json
+python -m pip install -r requirements-visualisation.txt
+python preview.py
+```
+
+The optional preview script is synchronised from the project collection. It
+reads `results/river_37.json` and writes `docs/images/river-policy.png`.
 
 ## Three approaches
 
