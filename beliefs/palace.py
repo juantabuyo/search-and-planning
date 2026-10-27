@@ -6,6 +6,9 @@ class Palace:
 
     def __init__(self, n=N_GRIDS) -> None:
         """Create a randomly generated palace with the original placement rules."""
+        required = 1 + len(TRAP_TYPES) + 1   # start, distinct traps in the worst case, one free cell
+        if n * n < required:
+            raise ValueError(f'A {n}x{n} palace has {n * n} cells; at least {required} are needed to place all elements.')
         self.n = n
         self.captain = START
         self.visited = {START}

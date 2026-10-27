@@ -5,6 +5,9 @@ class Palace:
 
     def __init__(self, n=N_GRIDS) -> None:
         """Create a randomly generated palace with the original placement rules."""
+        required = 1 + N_CLIFFS + N_SOLDIERS + N_COLONELS + 1   # start, hazards and the exit
+        if n * n < required:
+            raise ValueError(f'A {n}x{n} palace has {n * n} cells; {required} are needed to place all elements.')
         self.n = n
         self.captain = START
         self.cliffs = set()

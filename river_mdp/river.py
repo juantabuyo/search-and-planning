@@ -25,19 +25,27 @@ class River:
         self.terminal_states.update(self.islands)
 
     def generate_islands(self):
-        """Draw interior island positions, with a finite retry limit."""
+        """Draw interior island positions.
+
+        Random draws are made with a finite retry limit, exactly as submitted, so a
+        seed that used to produce a layout still produces the same one. If the limit
+        is reached first (more than 100 islands, or a nearly full river), the missing
+        islands are drawn without replacement from the free interior cells, so every
+        count accepted by the constructor can be placed.
+        """
         islands = set()
         attempts = 0
         max_attempts = 100
-        while len(islands) < self.num_islands:
-            if attempts >= max_attempts:
-                raise Exception(f'Could not place all islands within {max_attempts}')
+        while len(islands) < self.num_islands and attempts < max_attempts:
             i = random.randint(1, self.rows - 2)
             j = random.randint(1, self.cols - 2)
-            pos = (i, j)
-            if pos not in islands:
-                islands.add(pos)
+            islands.add((i, j))
             attempts += 1
+        missing = self.num_islands - len(islands)
+        if missing:
+            free = [(i, j) for i in range(1, self.rows - 1) for j in range(1, self.cols - 1)
+                    if (i, j) not in islands]
+            islands.update(random.sample(free, missing))
         return islands
 
     def generate_river_strength(self):

@@ -1,73 +1,70 @@
 # Search and planning in small gridworlds
 
-Three small gridworld models explore logical inference, approximate beliefs
-and planning under uncertainty. In the palace task, an agent must rescue
+My Artificial Intelligence coursework compares logical inference, approximate
+beliefs and planning under uncertainty. In the palace tasks, an agent must rescue
 Colonel Kurtz and reach an exit while avoiding hazards. In the river task, it must
 reach the opposite bank despite a random downward current.
 
-<img src="docs/images/river-policy.png" alt="Computed greedy policy and state values for river layout 37, showing downward current, two terminal islands and the exit bank" width="620">
+![Stored policy for river layout 37: action arrows, state values, two islands and the exit bank](docs/images/river-policy.png)
 
-The river policy and values come from the saved run for layout 37, reproduced
-from the code. Arrows show actions; the yellow border marks the starting state.
-Terminal values are zero because rewards are paid on entry.
+A visualisation of the authentic saved simulation result in
+`results/river_37.json`. Arrows show selected actions, numbers show state values
+and the outlined cell is the start. Islands and the exit bank are terminal.
+The diagram represents a generated gridworld, not observations of a real river.
 
-**Python · NumPy · logical inference · marginal beliefs · Markov decision processes**
+## Quick start
 
-## Run
-
-Python 3.12; tested with 3.12.14. From this folder:
+Checked with **Python 3.12.2 on macOS** and **Python 3.12.14**,
+using NumPy 2.5.4 and pip 26.2.2.
+Run from this project folder:
 
 ```bash
 python -m venv .venv
 source .venv/bin/activate
+python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 python -m logic_search.main --seed 42 --quiet
 python -m beliefs.main --seed 42 --demo
-python -m river_mdp.main --seed 5121111 --simulation-seed 2026 --episodes 20 --json results/river_5121111.json
+python -m river_mdp.main --seed 5121111 --simulation-seed 2026 --episodes 20 --quiet --json runs/river_5121111.json
 ```
 
-On Windows, activate with `.venv\Scripts\activate`. No external dataset, account
-or service is required. These commands run the logical heuristic, show an initial
-belief update and solve/simulate the river model. Existing JSON outputs are
-replaced. For an interactive palace session:
+On Windows Command Prompt, activate with `.venv\Scripts\activate`.
+No external dataset, account or service is required. The river command creates
+`runs/` if needed and replaces only the named output file. Original results
+remain in `results/`.
 
-```bash
-python -m logic_search.main --seed 42 --mode manual
-python -m beliefs.main --seed 42
+The logical run and the river run printed:
+
+```text
+Seed: 42; success: False; recorded actions: 3
+Seed 5121111: 20/20 simulated exits; mean reward 84.95; mean steps 16.05
 ```
 
-Use `moveU/D/L/R` to move and `grenadeU/D/L/R` to throw a grenade. `exit` succeeds
-only at the exit after the rescue. Commands ignore case; Ctrl+C stops the session.
-The belief interface's `--show-map` option reveals the hidden map for debugging.
+The logical heuristic fails on this layout; its count includes recorded actions
+before the fatal attempt. The belief demo only displays the initial marginal
+maps and candidate neighbours. It does not complete a mission. Twenty successful
+river episodes do not establish guaranteed success.
 
-To reproduce the saved layout and regenerate the illustration:
+## Methods
 
-```bash
-python -m river_mdp.main --seed 37 --simulation-seed 2026 --episodes 20 --quiet --json results/river_37.json
-python -m pip install -r requirements-visualisation.txt
-python preview.py
-```
+| Approach | Implementation and interpretation |
+|---|---|
+| Logical search | Clauses describe adjacent hazards. Rule propagation identifies some facts; BFS finds shortest routes through known safe cells. If none is available, a heuristic penalises revisits and possible hazards. It can take fatal risks and is not a complete SAT solver. |
+| Marginal beliefs | Uniform maps are filtered by deterministic perceptions and renormalised. They stay uniform over compatible positions. The user chooses actions. Summed hazard scores may exceed one and are not joint danger probabilities. |
+| River MDP | Synchronous Bellman updates evaluate up, down, left, right and stay, then extract a greedy policy. Rewards are +100 for an exit, −100 for an island and −1 otherwise, paid on transition. The default grid has 35 states. |
 
-The optional preview script is synchronised from the project collection. It
-reads `results/river_37.json` and writes `docs/images/river-policy.png`.
+The inference rules, search, belief filtering and Bellman iteration are written
+in the project. NumPy provides arrays and numerical operations. Matplotlib is
+only needed to redraw the stored policy.
 
-## Three approaches
+The river model uses `gamma=1`, tolerance 0.01 and a 1,000-update cap. Its observed
+stopping condition is not a general convergence guarantee: the discounted
+contraction argument does not apply. Layout and simulation seeds are separate.
 
-- **Logical search:** clauses describe adjacent hazards, and BFS searches known
-  safe cells. Without a safe route, a heuristic penalises revisits and possible
-  hazards. It can fail and is not a complete SAT solver.
-- **Marginal beliefs:** separate uniform maps are filtered by deterministic
-  perceptions. They remain uniform over compatible positions. Summed risk scores
-  can exceed one; they are not joint hazard probabilities. The user chooses
-  actions, and `--demo` does not complete a mission.
-- **River MDP:** synchronous Bellman updates choose among up, down, left, right
-  and stay. Rewards are +100 for reaching the exit, −100 for entering an island
-  and −1 otherwise, counted on transition. The default grid has 35 states.
+## Results and visualisation
 
-## Saved results
-
-Runs on 17 October 2026 used simulation seed 2026, 20 episodes per layout and a
-limit of 100 transitions per episode. Layout and simulation seeds are separate.
+The saved runs from 17 October 2026 use simulation seed 2026, 20 episodes per
+layout and at most 100 transitions per episode:
 
 | Layout seed | Bellman iterations | Exits | Mean transitions | Mean reward |
 |---|---:|---:|---:|---:|
@@ -76,35 +73,52 @@ limit of 100 transitions per episode. Layout and simulation seeds are separate.
 | 37 | 67 | 20/20 | 14.30 | 86.70 |
 | 51211 | 27 | 20/20 | 6.40 | 94.60 |
 
-[Results](results/) include policies, values and individual outcomes. Twenty
-successful simulations do not establish guaranteed success. With seed 42, the
-logical heuristic failed after three actions; the belief demo only updated its
-initial maps. Historical simulation averages are not reproduced by these runs.
+[Saved results](results/) include values, policies and individual simulated
+outcomes. Fresh runs of the quick-start layout on 23 and 26 October 2026
+reproduced its saved values; the macOS run produced an identical JSON file,
+including all 20 episode outcomes. New outputs were written separately.
+Only layout 5121111 was rerun; the other rows remain historical results.
 
-The MDP uses `gamma=1`, tolerance 0.01 and a 1,000-update cap. Its observed stopping
-condition is not a general convergence guarantee; the discounted contraction
-argument does not apply.
-
-## Tests and version notes
+To redraw the main figure from the saved JSON:
 
 ```bash
+python -m pip install -r requirements-visualisation.txt
+python preview.py
+```
+
+Checked with Matplotlib 3.11.2. This replaces `docs/images/river-policy.png`;
+it redraws existing values and does not rerun value iteration.
+
+## Explore and test
+
+```bash
+python -m logic_search.main --seed 42 --mode manual
+python -m beliefs.main --seed 42
 python -m unittest discover -s tests -v
 ```
 
-Fourteen tests cover safe shortest paths, clause propagation, compatible belief
-support, scores above one, grenade perceptions, scripted rescue, transition
-limits/counts, normalised transitions across four layouts, another grid width
-and Bellman/policy consistency. Scripted cases are not a complete interactive
-study or a success-rate guarantee.
+Use `moveU/D/L/R` to move and `grenadeU/D/L/R` to throw a grenade. `exit` works
+only at the exit after the rescue. Commands ignore case; Ctrl+C stops a session.
+`--show-map` reveals the hidden layout for debugging. The default palace size is
+six by six. A palace needs room for its start, traps, soldier, colonel and exit:
+both constructors raise `ValueError` below three by three (the beliefs palace
+formerly could not finish at one by one and failed for some seeds at two by two).
 
-[Technical notes](docs/technical-notes.md) explain model conventions. This version
-includes post-submission fixes to transition-limit success/counting, exit columns
-and the iteration cap. Seeded placement and simulation are controlled separately;
-historical layouts and averages need not match.
+All 14 tests pass with both checked Python versions. They
+cover safe paths, inference, belief support, scripted rescue, transition
+probabilities and boundaries, and Bellman/policy consistency. Interactive rescue
+was checked with scripted test input, not a complete study of manual play.
 
-## Academic context and credit
+`tests/test_palace_sizes.py` and `tests/test_river_capacity.py` add seven tests for
+the palace-size check, unchanged seeded layouts and river capacity. With the 14
+tests above, all 21 passed on Python 3.12.2 on macOS.
+
+`logic_search/`, `beliefs/` and `river_mdp/` each contain their environment,
+agent or solver, configuration and command-line entry point. See
+[technical notes](docs/technical-notes.md) for model assumptions and previous
+post-submission corrections.
+
+## Academic context
 
 An individual submission for *Foundations of Artificial Intelligence*, iMAT,
-ICAI, Universidad Pontificia Comillas. The logical inference,
-belief updates and Bellman iteration are implemented in the project; NumPy
-supports the numerical calculations. Teaching materials are not included.
+ICAI, Universidad Pontificia Comillas. Teaching materials are not included.
