@@ -1,0 +1,241 @@
+{
+  "layout_seed": 5121111,
+  "simulation_seed": 2026,
+  "episodes": 20,
+  "max_steps": 100,
+  "initial_state": [
+    4,
+    0
+  ],
+  "islands": [
+    [
+      4,
+      3
+    ],
+    [
+      5,
+      3
+    ]
+  ],
+  "current_by_column": [
+    0.0,
+    0.25,
+    0.92,
+    0.58,
+    0.0
+  ],
+  "gamma": 1,
+  "tolerance": 0.01,
+  "iteration_cap": 1000,
+  "iterations": 91,
+  "update_tolerance_reached": true,
+  "maximum_last_update": 0.009384445973523725,
+  "initial_state_value": 82.02075667095627,
+  "successes": 20,
+  "mean_reward": 84.95,
+  "mean_steps": 16.05,
+  "episode_results": [
+    {
+      "success": true,
+      "reward": 75,
+      "steps": 26
+    },
+    {
+      "success": true,
+      "reward": 67,
+      "steps": 34
+    },
+    {
+      "success": true,
+      "reward": 89,
+      "steps": 12
+    },
+    {
+      "success": true,
+      "reward": 79,
+      "steps": 22
+    },
+    {
+      "success": true,
+      "reward": 88,
+      "steps": 13
+    },
+    {
+      "success": true,
+      "reward": 86,
+      "steps": 15
+    },
+    {
+      "success": true,
+      "reward": 88,
+      "steps": 13
+    },
+    {
+      "success": true,
+      "reward": 91,
+      "steps": 10
+    },
+    {
+      "success": true,
+      "reward": 79,
+      "steps": 22
+    },
+    {
+      "success": true,
+      "reward": 88,
+      "steps": 13
+    },
+    {
+      "success": true,
+      "reward": 89,
+      "steps": 12
+    },
+    {
+      "success": true,
+      "reward": 80,
+      "steps": 21
+    },
+    {
+      "success": true,
+      "reward": 88,
+      "steps": 13
+    },
+    {
+      "success": true,
+      "reward": 90,
+      "steps": 11
+    },
+    {
+      "success": true,
+      "reward": 77,
+      "steps": 24
+    },
+    {
+      "success": true,
+      "reward": 92,
+      "steps": 9
+    },
+    {
+      "success": true,
+      "reward": 93,
+      "steps": 8
+    },
+    {
+      "success": true,
+      "reward": 95,
+      "steps": 6
+    },
+    {
+      "success": true,
+      "reward": 74,
+      "steps": 27
+    },
+    {
+      "success": true,
+      "reward": 91,
+      "steps": 10
+    }
+  ],
+  "values": [
+    [
+      78.01104511014394,
+      79.01967880043958,
+      80.02770384141323,
+      76.25549600000002,
+      0.0
+    ],
+    [
+      79.01943248907541,
+      80.02737565780653,
+      81.03501134362398,
+      60.061200000000014,
+      0.0
+    ],
+    [
+      80.02639110698642,
+      81.03369946128464,
+      82.04173424565788,
+      32.140000000000015,
+      0.0
+    ],
+    [
+      81.02976381426666,
+      82.03648985198248,
+      83.04791931552906,
+      -15.999999999999986,
+      0.0
+    ],
+    [
+      82.02075667095627,
+      83.02695328013692,
+      84.05360957981054,
+      0.0,
+      0.0
+    ],
+    [
+      82.96405517396052,
+      83.9697879029008,
+      85.05884462294951,
+      0.0,
+      0.0
+    ],
+    [
+      83.71832287217163,
+      84.72371418525503,
+      86.06366086263736,
+      98.61904761904762,
+      0.0
+    ]
+  ],
+  "policy": [
+    [
+      "right",
+      "right",
+      "down",
+      "right",
+      null
+    ],
+    [
+      "right",
+      "right",
+      "down",
+      "right",
+      null
+    ],
+    [
+      "right",
+      "right",
+      "down",
+      "right",
+      null
+    ],
+    [
+      "right",
+      "right",
+      "down",
+      "right",
+      null
+    ],
+    [
+      "right",
+      "right",
+      "down",
+      null,
+      null
+    ],
+    [
+      "right",
+      "right",
+      "down",
+      null,
+      null
+    ],
+    [
+      "right",
+      "right",
+      "right",
+      "right",
+      null
+    ]
+  ]
+}

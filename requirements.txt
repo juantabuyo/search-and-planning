@@ -1,0 +1,2 @@
+# The only third-party runtime dependency; tested with Python 3.12.14.
+numpy==2.5.4

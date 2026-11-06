@@ -1,0 +1,54 @@
+
+RUNNING VALUE ITERATION
+
+Update tolerance reached after 27 iterations
+======================================================================
+RIVER INFORMATION
+======================================================================
+Dimensions: 7 rows x 5 columns
+Initial state: (5, 0)
+Exit (last column): column 4
+Islands (hazards): {(5, 1), (2, 2)}
+
+Current strength by column:
+Column 0 (Bank): 0.00
+Column 1 (Interior): 0.60
+Column 2 (Interior): 0.17
+Column 3 (Interior): 0.11
+Column 4 (Bank): 0.00
+
+
+|     ||  R  ||  R  ||  R  ||  E  |
+|     ||  R  ||  R  ||  R  ||  E  |
+|     ||  R  ||  I  ||  R  ||  E  |
+|     ||  R  ||  R  ||  R  ||  E  |
+|     ||  R  ||  R  ||  R  ||  E  |
+|CWCK ||  I  ||  R  ||  R  ||  E  |
+|     ||  R  ||  R  ||  R  ||  E  |
+
+
+======================================================================
+ESTIMATED STATE VALUES V(s)
+======================================================================
+ 89.16 |  75.58 |  92.96 |  99.88 | EXIT
+ 90.16 |  65.67 |  65.07 |  99.88 | EXIT
+ 91.17 |  51.01 |  ISLAND  |  99.88 | EXIT
+ 92.17 |  25.91 |  98.67 |  99.88 | EXIT
+ 93.17 | -20.93 |  98.67 |  99.88 | EXIT
+ 94.17 |  ISLAND  |  98.67 |  99.88 | EXIT
+ 95.17 |  96.17 |  98.67 |  99.88 | EXIT
+
+
+======================================================================
+GREEDY POLICY FOR THE CURRENT VALUES
+======================================================================
+  ↓  |   →  |   →  |   →  |   E 
+  ↓  |   ←  |   →  |   →  |   E 
+  ↓  |   ←  |   I  |   →  |   E 
+  ↓  |   →  |   →  |   →  |   E 
+  ↓  |   →  |   →  |   →  |   E 
+ ↓S  |   I  |   →  |   →  |   E 
+  →  |   →  |   →  |   →  |   E 
+
+Legend: ↑=up, ↓=down, ←=left, →=right, o=stay, S=start, E=exit, I=island
+Seed 51211: 20/20 simulated exits; mean reward 94.60; mean steps 6.40
